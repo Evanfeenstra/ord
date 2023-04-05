@@ -24,6 +24,7 @@ impl Media {
     ("audio/flac", Media::Audio, &["flac"]),
     ("audio/mpeg", Media::Audio, &["mp3"]),
     ("audio/wav", Media::Audio, &["wav"]),
+    ("audio/ogg", Media::Audio, &["ogg"]),
     ("image/apng", Media::Image, &["apng"]),
     ("image/avif", Media::Image, &[]),
     ("image/gif", Media::Image, &["gif"]),
