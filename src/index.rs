@@ -635,7 +635,7 @@ impl Index {
       write!(writer, "{}\t{}", entry.inscription_number, entry.height)?;
 
       if include_addresses {
-        let tx = self.get_transaction(satpoint.outpoint.txid)?.unwrap();
+        let tx = self.get_transaction(entry.id.txid)?.unwrap();
         // content type
         let content_type = match ParsedEnvelope::from_transaction(&tx)
           .into_iter()
