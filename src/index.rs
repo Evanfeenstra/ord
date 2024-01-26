@@ -601,15 +601,15 @@ impl Index {
     let mut writer = BufWriter::new(File::create(filename)?);
     let rtx = self.database.begin_read()?;
 
-    let blocks_indexed = rtx
-      .open_table(HEIGHT_TO_BLOCK_HEADER)?
-      .range(0..)?
-      .next_back()
-      .and_then(|result| result.ok())
-      .map(|(height, _header)| height.value() + 1)
-      .unwrap_or(0);
+    // let blocks_indexed = rtx
+    //   .open_table(HEIGHT_TO_BLOCK_HEADER)?
+    //   .range(0..)?
+    //   .next_back()
+    //   .and_then(|result| result.ok())
+    //   .map(|(height, _header)| height.value() + 1)
+    //   .unwrap_or(0);
 
-    writeln!(writer, "# export at block height {}", blocks_indexed)?;
+    // writeln!(writer, "# export at block height {}", blocks_indexed)?;
 
     log::info!("exporting database tables to {filename}");
 
