@@ -12,7 +12,7 @@ impl Export {
   pub(crate) fn run(self, options: Options) -> SubcommandResult {
     let index = Index::open(&options)?;
 
-    index.update()?;
+    // index.update()?;
     index.export(&self.tsv, self.include_addresses)?;
 
     Ok(None)
