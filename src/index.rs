@@ -637,17 +637,18 @@ impl Index {
       if include_addresses {
         let tx = self.get_transaction(satpoint.outpoint.txid)?.unwrap();
         // content type
-        let Some(inscription) = ParsedEnvelope::from_transaction(&tx)
+        let content_type = match ParsedEnvelope::from_transaction(&tx)
           .into_iter()
           .nth(entry.id.index as usize)
           .map(|envelope| envelope.payload)
-        else {
-          continue;
+        {
+          Some(inscription) => inscription
+            .content_type()
+            .map(|c| c.to_string())
+            .unwrap_or("unknown".to_string()),
+          None => "unknown".to_string(),
         };
-        let content_type = inscription
-          .content_type()
-          .map(|c| c.to_string())
-          .unwrap_or("".to_string());
+
         // address
         let address = if satpoint.outpoint == unbound_outpoint() {
           "unbound".to_string()
