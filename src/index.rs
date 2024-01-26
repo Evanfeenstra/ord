@@ -629,11 +629,7 @@ impl Index {
           .value(),
       );
 
-      write!(
-        writer,
-        "{}\t{}\t{}\t{}",
-        entry.inscription_number, entry.id, satpoint, entry.height
-      )?;
+      write!(writer, "{}\t{}", entry.inscription_number, entry.height)?;
 
       if include_addresses {
         let tx = self.get_transaction(satpoint.outpoint.txid)?.unwrap();
