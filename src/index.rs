@@ -631,17 +631,29 @@ impl Index {
 
       write!(
         writer,
-        "{}\t{}\t{}",
-        entry.inscription_number, entry.id, satpoint
+        "{}\t{}\t{}\t{}",
+        entry.inscription_number, entry.id, satpoint, entry.height
       )?;
 
       if include_addresses {
+        let tx = self.get_transaction(satpoint.outpoint.txid)?.unwrap();
+        // content type
+        let Some(inscription) = ParsedEnvelope::from_transaction(&tx)
+          .into_iter()
+          .nth(entry.id.index as usize)
+          .map(|envelope| envelope.payload)
+        else {
+          continue;
+        };
+        let content_type = inscription
+          .content_type()
+          .map(|c| c.to_string())
+          .unwrap_or("".to_string());
+        // address
         let address = if satpoint.outpoint == unbound_outpoint() {
           "unbound".to_string()
         } else {
-          let output = self
-            .get_transaction(satpoint.outpoint.txid)?
-            .unwrap()
+          let output = tx
             .output
             .into_iter()
             .nth(satpoint.outpoint.vout.try_into().unwrap())
@@ -653,7 +665,7 @@ impl Index {
             .map(|address| address.to_string())
             .unwrap_or_else(|e| e.to_string())
         };
-        write!(writer, "\t{}", address)?;
+        write!(writer, "\t{}\t{}", address, content_type)?;
       }
       writeln!(writer)?;
 
