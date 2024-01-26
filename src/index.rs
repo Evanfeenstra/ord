@@ -621,9 +621,7 @@ impl Index {
     {
       let entry = result?;
       let sequence_number = entry.0.value();
-      if sequence_number > 1000 {
-        break;
-      }
+
       let entry = InscriptionEntry::load(entry.1.value());
       let satpoint = SatPoint::load(
         *sequence_number_to_satpoint
