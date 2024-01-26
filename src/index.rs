@@ -621,6 +621,7 @@ impl Index {
     {
       let entry = result?;
       let sequence_number = entry.0.value();
+      println!("sequence_number: {}", sequence_number);
       let entry = InscriptionEntry::load(entry.1.value());
       let satpoint = SatPoint::load(
         *sequence_number_to_satpoint
